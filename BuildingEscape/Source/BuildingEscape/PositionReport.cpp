@@ -20,8 +20,10 @@ void UPositionReport::BeginPlay()
 {
 	Super::BeginPlay();
 	FString ownerName = GetOwner()->GetName();
-	
-	UE_LOG(LogTemp, Warning, TEXT("Position Report Begin Play : %s!\n"), *ownerName);
+
+	FVector ownerPosition = GetOwner()->GetActorLocation();
+	FString ownerPosPrintOut = ownerPosition.ToString(); 
+	UE_LOG(LogTemp, Warning, TEXT("%s is at %s!\n"), *ownerName, *ownerPosPrintOut);
 	// ...
 	
 }
