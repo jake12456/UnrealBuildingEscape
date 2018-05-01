@@ -17,7 +17,6 @@ UGrabber::UGrabber()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-
 // Called when the game starts
 void UGrabber::BeginPlay()
 {
@@ -65,7 +64,6 @@ void UGrabber::Grab()
 			GrabLocation,
 			true
 		);
-		UE_LOG(LogTemp, Warning, TEXT("I HIT SOMETHING YOOO %s"), *ActorSelected->GetName());
 	}
 }
 bool UGrabber::GetFirstPhysicsBodyInReach(FHitResult &ResultOfLineTrace)
@@ -86,12 +84,15 @@ void UGrabber::Release()
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	World->GetFirstPlayerController()->GetPlayerViewPoint(OUT PlayerViewPointLocation, OUT PlayerViewPointRotation);
-///	UE_LOG(LogTemp, Warning, TEXT("%s %s"), *PlayerViewPointLocation.ToString(), *PlayerViewPointRotation.ToString());
-	LineTraceEnd = PlayerViewPointLocation + (PlayerViewPointRotation.Vector() * Reach);
+	UpdateWorldVars();
 	if (PhysicsHandle->GrabbedComponent) 
 	{
 		PhysicsHandle->SetTargetLocation(LineTraceEnd);
 	}
 }
 
+void UGrabber::UpdateWorldVars()
+{
+	World->GetFirstPlayerController()->GetPlayerViewPoint(OUT PlayerViewPointLocation, OUT PlayerViewPointRotation);
+	LineTraceEnd = PlayerViewPointLocation + (PlayerViewPointRotation.Vector() * Reach);
+}
