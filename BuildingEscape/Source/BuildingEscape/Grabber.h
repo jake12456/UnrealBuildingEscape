@@ -4,8 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Engine.h"
+#include "Components/InputComponent.h"
 #include "Grabber.generated.h"
-
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BUILDINGESCAPE_API UGrabber : public UActorComponent
@@ -19,6 +20,10 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+
+	void SetupInputComponent();
+
+	void FindPhysicsHandleComonent();
 	
 
 public:	
@@ -29,4 +34,16 @@ private :
 	UPROPERTY(EditAnywhere)
 	float Reach = 100.f;
 
+	UPhysicsHandleComponent* PhysicsHandle = nullptr;
+
+	UInputComponent* InputComponent = nullptr;
+
+	void Grab();
+	bool GetFirstPhysicsBodyInReach(FHitResult &ResultOfLineTrace);
+	void Release();
+
+	FVector PlayerViewPointLocation;
+	FRotator PlayerViewPointRotation;
+	FVector LineTraceEnd;
+	UWorld *World;
 };
