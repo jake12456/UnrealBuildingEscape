@@ -23,11 +23,11 @@ void UTriggerListenerBase::	TickComponent(float DeltaTime, ELevelTick TickType, 
 
 void UTriggerListenerBase::CallTriggerReportEnter()
 {
-	OnTriggerReportEnter.Broadcast();;
+	OnTriggerReportEnter.Broadcast();
 }
 
 void UTriggerListenerBase::CallTriggerReportExit()
 {
-	OnTriggerReportExit.Broadcast();;
+	OnTriggerReportExit.Broadcast(); 
 }
 
