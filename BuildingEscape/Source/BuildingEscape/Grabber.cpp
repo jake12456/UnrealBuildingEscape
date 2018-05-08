@@ -58,6 +58,7 @@ void UGrabber::Grab()
 		auto ActorSelected = ResultOfLineTrace.GetActor();
 		auto ComponentToGrab = ResultOfLineTrace.GetComponent();
 		auto GrabLocation = ActorSelected->GetActorLocation();
+		if (!PhysicsHandle)return;
 		PhysicsHandle->GrabComponent(
 			ComponentToGrab,
 			NAME_None, 
@@ -69,6 +70,7 @@ void UGrabber::Grab()
 bool UGrabber::GetFirstPhysicsBodyInReach(FHitResult &ResultOfLineTrace)
 {
 	FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetOwner());
+	if (!World) return false;
 	return World->LineTraceSingleByObjectType(
 		OUT ResultOfLineTrace,
 		PlayerViewPointLocation,
@@ -78,6 +80,7 @@ bool UGrabber::GetFirstPhysicsBodyInReach(FHitResult &ResultOfLineTrace)
 }
 void UGrabber::Release() 
 {
+	if (!PhysicsHandle) return;
 	PhysicsHandle->ReleaseComponent();
 }
 // Called every frame
@@ -85,6 +88,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	UpdateWorldVars();
+	if (!PhysicsHandle) return;
 	if (PhysicsHandle->GrabbedComponent) 
 	{
 		PhysicsHandle->SetTargetLocation(LineTraceEnd);
@@ -93,6 +97,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 
 void UGrabber::UpdateWorldVars()
 {
+	if (!World) return;
 	World->GetFirstPlayerController()->GetPlayerViewPoint(OUT PlayerViewPointLocation, OUT PlayerViewPointRotation);
 	LineTraceEnd = PlayerViewPointLocation + (PlayerViewPointRotation.Vector() * Reach);
 }

@@ -40,6 +40,8 @@ private :
 
 	UInputComponent* InputComponent = nullptr;
 
+	UWorld *World = nullptr;
+
 	void Grab();
 	bool GetFirstPhysicsBodyInReach(FHitResult &ResultOfLineTrace);
 	void Release();
@@ -47,5 +49,4 @@ private :
 	FVector PlayerViewPointLocation;
 	FRotator PlayerViewPointRotation;
 	FVector LineTraceEnd;
-	UWorld *World;
 };
